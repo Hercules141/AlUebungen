@@ -136,6 +136,14 @@ pageextension 50100 ItemListPageExtension extends "Item List"
                 end;
             }
 
+            action("Open Items with Inventory Stock under 100")
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Process;
+                RunObject = page "Items under 100";
+            }
+
             action("Action in Custom Promoted Action Category")
             {
                 ApplicationArea = All;
@@ -145,6 +153,18 @@ pageextension 50100 ItemListPageExtension extends "Item List"
                 trigger OnAction()
                 begin
 
+                end;
+            }
+
+            action("Add Items under 100")
+            {
+                ApplicationArea = All;
+
+                trigger OnAction()
+                var
+                    ItemMngmt: Codeunit "Item Management";
+                begin
+                    ItemMngmt.AddItemsUnder100();
                 end;
             }
         }

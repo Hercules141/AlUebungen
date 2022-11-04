@@ -68,4 +68,40 @@ codeunit 50100 "Item Management"
     // begin
 
     // end;
+
+    procedure AddItemsUnder100()
+    var
+        RecIU100: Record "Items under 100";
+        RecItem: Record Item;
+    begin
+        RecItem.SetAutoCalcFields("Inventory");
+        if RecItem.FindSet() then
+            repeat
+            begin
+                if RecItem.Inventory < 100 then begin
+                    RecIU100.Init();
+                    RecIU100.Validate("Entry No.", 0);
+                    RecIU100.Validate("Added On", CurrentDateTime);
+                    RecIU100.Validate("Item No.", RecItem."No.");
+                    RecIU100.Validate("Item Stock", Round(RecItem.Inventory));
+                    RecIU100.Insert(true);
+                end;
+            end;
+            until RecItem.Next() = 0;
+
+        // RecItem.FindSet();
+
+        // RecIU100.Init();
+        // RecIU100.Validate("Entry No.", 0);
+        // RecIU100.Validate("Added On", CurrentDateTime);
+        // RecIU100.Validate("Item No.", RecItem."No.");
+        // RecIU100.Validate("Item Stock", RecItem.Inventory);
+        // RecIU100.Insert(true);
+    end;
+
+    trigger OnRun()
+    var
+    begin
+        AddItemsUnder100();
+    end;
 }

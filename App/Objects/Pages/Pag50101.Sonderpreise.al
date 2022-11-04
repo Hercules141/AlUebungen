@@ -151,9 +151,10 @@ page 50101 SonderpreiseList
                 var
                     string: Text;
                 begin
-                    string := 'Hi im a wonderful lushes great string and love to be long cause thats all that counts';
+                    string := 'Hi im a wonderful lushes great string';
                     // Message(Format(StrPos('hello i am a text', 'am')));
                     Message(DelStr(string, StrPos(string, 'great')));
+
                 end;
             }
         }

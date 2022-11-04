@@ -10,7 +10,7 @@
             "serverInstance": "Basis_BC20_CU04_VCO",
             "port": 8069,
             "authentication": "Windows",
-            "startupObjectId": 50101,
+            "startupObjectId": 31,
             "startupObjectType": "Page",
             "breakOnError": true,
             "launchBrowser": true,
