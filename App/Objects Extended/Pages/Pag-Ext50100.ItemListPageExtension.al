@@ -167,6 +167,18 @@ pageextension 50100 ItemListPageExtension extends "Item List"
                     ItemMngmt.AddItemsUnder100();
                 end;
             }
+
+            action("Test Action")
+            {
+                ApplicationArea = All;
+
+                trigger OnAction()
+                var
+                    itemsUnder100Report: Report "Items under 100";
+                begin
+                    itemsUnder100Report.Run();
+                end;
+            }
         }
     }
 

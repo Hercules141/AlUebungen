@@ -80,6 +80,7 @@ codeunit 50100 "Item Management"
             begin
                 if RecItem.Inventory < 100 then begin
                     RecIU100.Init();
+                    //importaante
                     RecIU100.Validate("Entry No.", 0);
                     RecIU100.Validate("Added On", CurrentDateTime);
                     RecIU100.Validate("Item No.", RecItem."No.");
