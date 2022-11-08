@@ -13,11 +13,18 @@ report 50101 "Items under 100"
         dataitem(ItemDataItem; Item)
         {
             trigger OnPreDataItem()
+            var
+                ItemsUnder100: Record "Items under 100";
             begin
 
                 //empty table to refresh records that may be outdated and to not have duplicates
                 //// ItemDataItem.DeleteAll()
                 //wrong table...
+
+                //delete correct table this time
+                if Dialog.Confirm('do you really want to delete all contents of table: "Items under 100"') then begin
+                    ItemsUnder100.DeleteAll();
+                end;
 
                 counter := 1;
                 ProgressinPercent := 0;
@@ -36,10 +43,7 @@ report 50101 "Items under 100"
             var
                 ItemsUnder100: Record "Items under 100";
             begin
-
-                counter += 1;
-
-                ItemsUnder100.Validate("Entry No.", 0);
+                ItemsUnder100.Validate("Entry No.", 0);     //Necessary for auto increment to work (0 -> "uninitialized")
                 ItemsUnder100.Validate("Item No.", "No.");
                 ItemsUnder100.Validate("Added On", CurrentDateTime);
                 ItemsUnder100.Validate("Item Stock", Inventory);
@@ -51,6 +55,8 @@ report 50101 "Items under 100"
                 StatusDialog.Update(2, Inventory);
                 StatusDialog.Update(3, ProgressinPercent);
 
+                //Conter for current Data Row being inserted starting with 1
+                counter += 1;
             end;
         }
 

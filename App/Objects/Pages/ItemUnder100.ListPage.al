@@ -5,7 +5,7 @@ page 50106 "Items under 100"
     UsageCategory = Lists;
     ApplicationArea = All;
     SourceTable = "Items under 100";
-    // SourceTableView = sorting("Entry No.") order(descending);
+    SourceTableView = sorting("Entry No.") order(descending);
 
     layout
     {
