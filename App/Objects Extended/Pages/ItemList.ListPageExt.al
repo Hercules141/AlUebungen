@@ -156,7 +156,7 @@ pageextension 50100 ItemListPageExtension extends "Item List"
                 end;
             }
 
-            action("Add Items under 100")
+            action("Add Items under 100 (Codeunit version)")
             {
                 ApplicationArea = All;
 

@@ -2,7 +2,6 @@ report 50100 ReportSonderpreise
 {
     Caption = 'Report Page Sonderpreise';
     ProcessingOnly = true;
-
     dataset
     {
         dataitem(DataItemSonderpreise; SonderpreiseTable)
