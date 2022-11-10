@@ -18,6 +18,7 @@
             "enableSqlInformationDebugger": true,
             "tenant": "default",
             "schemaUpdateMode": "ForceSync"
+            
         }
     ]
 }
