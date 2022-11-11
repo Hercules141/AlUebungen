@@ -1,6 +1,7 @@
 report 50102 "Item Info Excel"
 {
     UsageCategory = Lists;
+
     dataset
     {
 
@@ -88,21 +89,46 @@ report 50102 "Item Info Excel"
 
         TempExcelBuffer.WriteSheet('Header Text', CompanyName, UserId);
         TempExcelBuffer.CloseBook();
-        TempExcelBuffer.SetFriendlyFilename('Item Info Excel Export- ' + Format(CurrentDateTime));
+        TempExcelBuffer.SetFriendlyFilename('Item Info Excel Export- ' + Format(Today));
         TempExcelBuffer.OpenExcel();
 
     end;
 
     local procedure FillExcelBuffer(var TempExcelBuffer: Record "Excel Buffer"; Items: Record Item)
     var
-        SomeVariant: Variant;
+        TempFilter: Text;
     begin
         TempExcelBuffer.Reset();
         TempExcelBuffer.DeleteAll();
+
+        Items.SetAutoCalcFields(Inventory);
+        TempFilter := ItemDataItem.GetFilter("No.");
+        Items.SetFilter("No.", TempFilter);
+        //Create Table Header
         TempExcelBuffer.NewRow();
-        TempExcelBuffer.AddColumn('Caption 1', false, 'First Column', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
-        TempExcelBuffer.AddColumn('Caption 2', false, 'second Column', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
-        TempExcelBuffer.AddColumn('Caption 3', false, 'second Column', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(Items.FieldCaption("No."), false, 'A Comment', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(Items.FieldCaption(Description), false, 'A Comment', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(Items.FieldCaption(Blocked), false, 'A Comment', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(Items.FieldCaption(Type), false, 'A Comment', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(Items.FieldCaption("Base Unit of Measure"), false, 'A Comment', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn(Items.FieldCaption(Inventory), false, 'A Comment', true, false, false, '', TempExcelBuffer."Cell Type"::Number);
+        TempExcelBuffer.AddColumn(Items.FieldCaption("Sales Unit of Measure"), false, 'A Comment', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+
+
+        if (Items.FindSet()) then
+            repeat
+            begin
+                TempExcelBuffer.NewRow();
+                TempExcelBuffer.AddColumn(Items."No.", false, 'A Comment', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(Items.Description, false, 'A Comment', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(Items.Blocked, false, 'A Comment', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(Items.Type, false, 'A Comment', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(Items."Base Unit of Measure", false, 'A Comment', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(Items.Inventory, false, 'A Comment', true, false, false, '', TempExcelBuffer."Cell Type"::Number);
+                TempExcelBuffer.AddColumn(Items."Sales Unit of Measure", false, 'A Comment', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+            end;
+            until Items.Next() = 0;
+
     end;
 
     var
