@@ -200,6 +200,19 @@ pageextension 50100 ItemListPageExtension extends "Item List"
                         itemsUnder100Report.Run();
                     end;
                 }
+
+                action("Create Excel File")
+                {
+                    ApplicationArea = All;
+                    Image = ExportToExcel;
+
+                    trigger OnAction()
+                    var
+                        RepItemExcel: Report "Item Info Excel";
+                    begin
+                        RepItemExcel.Run();
+                    end;
+                }
             }
 
 

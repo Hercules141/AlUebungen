@@ -42,10 +42,8 @@ report 50102 "Item Info Excel"
     }
 
     trigger OnPostReport()
-    var
-        TempExcelBuffer: Record "Excel Buffer";
     begin
-        CreateAndFillExcelBuffer(TempExcelBuffer);
+        CreateAndFillExcelBuffer(ItemDataItem);
     end;
 
     // rendering
@@ -57,34 +55,54 @@ report 50102 "Item Info Excel"
     //     }
     // }
 
-    local procedure CreateAndFillExcelBuffer(TempExcelBuffer: Record "Excel Buffer" temporary)
+    local procedure CreateAndFillExcelBuffer(RecItem: Record Item)
     var
-        TempBlob: Codeunit "Temp Blob";
-        Filemgt: Codeunit "File Management";
-        TempOutStream: OutStream;
-        TempInStream: InStream;
-        Items: Record Item;
-        FileMgt: Codeunit "File Management";
-        SomeFile: File;
-        FileName: Text;
+        TempExcelBuffer: Record "Excel Buffer" temporary;
+    // TempBlob: Codeunit "Temp Blob";
+    // Filemgt: Codeunit "File Management";
+    // TempOutStream: OutStream;
+    // TempInStream: InStream;
+    // Items: Record Item;
+    // SomeFile: File;
+    // FileName: Text;
     begin
-        FileMgt.CreateFileNameWithExtension('Artefacts', '.exportedexcel');
+        // FileName := 'FileName';
+        // // FileMgt.CreateFileNameWithExtension('Artefacts', '.exportedexcel');
 
-        TempExcelBuffer.OpenBookStream(TempOutStream, 'TestExport');
+        // TempExcelBuffer.CreateNewBook('sheetname.txt');
+        // // TempExcelBuffer.OpenBookStream(TempInStream, 'TestExport');
+        // FillExcelBuffer(TempExcelBuffer, Items);
+        // TempExcelBuffer.SaveToStream(TempOutStream, false);
+
+        // TempBlob.CreateOutStream(TempOutStream);
+        // TempBlob.CreateInStream(TempInStream);
+
+        // TempExcelBuffer.WriteSheet('Header text', CompanyName, UserId);
+        // TempExcelBuffer.CloseBook();
+
+        // DownloadFromStream(TempInStream, 'Diaolog Title', '', '', FileName);
+
+        FillExcelBuffer(TempExcelBuffer, RecItem);
+        TempExcelBuffer.CreateNewBook('newbook');
+        // TempExcelBuffer.AddColumn('Caption 1', false, 'First Column', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+
+        TempExcelBuffer.WriteSheet('Header Text', CompanyName, UserId);
         TempExcelBuffer.CloseBook();
-        FillExcelBuffer(TempExcelBuffer, Items);
-        TempExcelBuffer.SaveToStream(TempOutStream, false);
-        TempBlob.CreateOutStream(TempOutStream);
-        TempBlob.CreateInStream(TempInStream);
+        TempExcelBuffer.SetFriendlyFilename('Item Info Excel Export- ' + Format(CurrentDateTime));
+        TempExcelBuffer.OpenExcel();
 
-        DownloadFromStream(TempInStream, '', '', '', FileName);
     end;
 
-    local procedure FillExcelBuffer(TempExcelBuffer: Record "Excel Buffer" temporary; Items: Record Item)
+    local procedure FillExcelBuffer(var TempExcelBuffer: Record "Excel Buffer"; Items: Record Item)
     var
         SomeVariant: Variant;
     begin
-        TempExcelBuffer.AddColumn(SomeVariant, false, 'First Column', true, false, false, '', TempExcelBuffer."Cell Type");
+        TempExcelBuffer.Reset();
+        TempExcelBuffer.DeleteAll();
+        TempExcelBuffer.NewRow();
+        TempExcelBuffer.AddColumn('Caption 1', false, 'First Column', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn('Caption 2', false, 'second Column', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+        TempExcelBuffer.AddColumn('Caption 3', false, 'second Column', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
     end;
 
     var
