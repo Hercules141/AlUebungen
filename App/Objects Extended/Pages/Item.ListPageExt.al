@@ -200,18 +200,34 @@ pageextension 50100 ItemListPageExtension extends "Item List"
                         itemsUnder100Report.Run();
                     end;
                 }
-
-                action("Create Excel File")
+                group("Export Item Info")
                 {
-                    ApplicationArea = All;
-                    Image = ExportToExcel;
 
-                    trigger OnAction()
-                    var
-                        RepItemExcel: Report "Item Info Excel";
-                    begin
-                        RepItemExcel.Run();
-                    end;
+                    action("Create Excel File")
+                    {
+                        ApplicationArea = All;
+                        Image = ExportToExcel;
+
+                        trigger OnAction()
+                        var
+                            RepItemExcel: Report "Item Info Excel";
+                        begin
+                            RepItemExcel.Run();
+                        end;
+                    }
+
+                    action("Create CSV File")
+                    {
+                        ApplicationArea = all;
+                        Image = ExportFile;
+
+                        trigger OnAction()
+                        var
+                            RepItemCSV: Report "Item Info CSV";
+                        begin
+                            RepItemCSV.Run();
+                        end;
+                    }
                 }
             }
 
