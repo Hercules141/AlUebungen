@@ -43,7 +43,13 @@ report 50102 "Item Info Excel"
     }
 
     trigger OnPostReport()
+    var
+        TempFilter: Text;
     begin
+        TempFilter := ItemDataItem.GetFilter("No.");
+        Message('This should be your entered Filter: %1', TempFilter);
+        ItemDataItem.SetFilter("No.", TempFilter);
+
         CreateAndFillExcelBuffer(ItemDataItem);
     end;
 
@@ -56,7 +62,7 @@ report 50102 "Item Info Excel"
     //     }
     // }
 
-    local procedure CreateAndFillExcelBuffer(RecItem: Record Item)
+    local procedure CreateAndFillExcelBuffer(var RecItem: Record Item)
     var
         TempExcelBuffer: Record "Excel Buffer" temporary;
     // TempBlob: Codeunit "Temp Blob";
@@ -94,7 +100,7 @@ report 50102 "Item Info Excel"
 
     end;
 
-    local procedure FillExcelBuffer(var TempExcelBuffer: Record "Excel Buffer"; Items: Record Item)
+    local procedure FillExcelBuffer(var TempExcelBuffer: Record "Excel Buffer"; var Items: Record Item)
     var
         TempFilter: Text;
     begin
@@ -102,8 +108,7 @@ report 50102 "Item Info Excel"
         TempExcelBuffer.DeleteAll();
 
         Items.SetAutoCalcFields(Inventory);
-        TempFilter := ItemDataItem.GetFilter("No.");
-        Items.SetFilter("No.", TempFilter);
+
         //Create Table Header
         TempExcelBuffer.NewRow();
         TempExcelBuffer.AddColumn(Items.FieldCaption("No."), false, 'A Comment', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
