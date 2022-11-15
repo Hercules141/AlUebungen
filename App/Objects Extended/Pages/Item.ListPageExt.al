@@ -216,7 +216,7 @@ pageextension 50100 ItemListPageExtension extends "Item List"
                         end;
                     }
 
-                    action("Create CSV File")
+                    action("Create CSV File (unfinished Report Method)")
                     {
                         ApplicationArea = all;
                         Image = ExportFile;
@@ -226,6 +226,17 @@ pageextension 50100 ItemListPageExtension extends "Item List"
                             RepItemCSV: Report "Item Info CSV";
                         begin
                             RepItemCSV.Run();
+                        end;
+                    }
+
+                    action("Create CSV File (With XmlPort)")
+                    {
+                        Image = XMLFile;
+                        trigger OnAction()
+                        var
+                            ItemInfoXmlPort: XmlPort "Item Info CSV";
+                        begin
+                            ItemInfoXmlPort.Run();
                         end;
                     }
                 }
