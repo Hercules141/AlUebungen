@@ -5,7 +5,7 @@ xmlport 50100 "Item Info CSV"
     // FieldDelimiter = '|'; //added
     RecordSeparator = ';\n';
     FieldSeparator = '|'; //added (probably standard)
-    FileName = 'ItemInfoCSV.txt';
+    FileName = 'ItemInfoCSV.csv';
 
     schema
     {
@@ -19,11 +19,8 @@ xmlport 50100 "Item Info CSV"
                 RequestFilterHeading = 'Item No'; //only caption
                 RequestFilterFields = "No.";
 
-                fieldattribute(Name1; Item."No.")
-                {
-
-                }
-
+                //Heading Rows Not Possible as far as I can tell, doing it this way! -> CSVBuffer in Codeunit
+                //Values from Table
                 fieldelement("ItemNo."; Item."No.")
                 {
                 }

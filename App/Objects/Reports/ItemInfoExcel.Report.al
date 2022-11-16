@@ -8,10 +8,11 @@ report 50102 "Item Info Excel"
         dataitem(ItemDataItem; Item)
         {
             RequestFilterFields = "No.";
-            column(ColumnName; "Item No. Var")
-            {
+            //maybe needed
+            // column(ColumnName; "Item No. Var")
+            // {
 
-            }
+            // }
         }
     }
 
@@ -91,7 +92,6 @@ report 50102 "Item Info Excel"
 
         FillExcelBuffer(TempExcelBuffer, RecItem);
         TempExcelBuffer.CreateNewBook('newbook');
-        // TempExcelBuffer.AddColumn('Caption 1', false, 'First Column', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
 
         TempExcelBuffer.WriteSheet('Header Text', CompanyName, UserId);
         TempExcelBuffer.CloseBook();

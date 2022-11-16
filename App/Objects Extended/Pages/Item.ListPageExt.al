@@ -33,7 +33,7 @@ pageextension 50100 ItemListPageExtension extends "Item List"
     actions
     {
         // addbefore("Item")
-        addbefore(Item)
+        addfirst(Functions)
         {
             group("My Actions")
             {
